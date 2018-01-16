@@ -80,10 +80,10 @@ rightmost (Leaf i)     = i
 --
 maxInt :: Tree -> Int
 maxInt (Leaf i)     = i
-maxInt (Node i l r) = 
-                    | maxInt l > maxInt r = maxInt l
-                    | maxInt r > maxInt l = maxInt r
-                    | i > maxInt r && maxInt l = i
+maxInt (Node i l r)
+                    | i >= maxInt r && maxInt l = i
+                    | maxInt l >= maxInt r = maxInt l
+                    | maxInt r >= maxInt l = maxInt r
 
 -- | Get the minimum integer from a binary tree.
 --
@@ -104,10 +104,10 @@ maxInt (Node i l r) =
 --
 minInt :: Tree -> Int
 minInt (Leaf i)     = i
-minInt (Node i l r) = 
-                    | minInt l < minInt r = minInt l
-                    | minInt r < minInt l = minInt r
-                    | i < minInt r && minInt l = i
+minInt (Node i l r)
+                    | i <= minInt r && minInt l = i
+                    | minInt l <= minInt r = minInt l
+                    | minInt r <= minInt l = minInt r
 
 -- | Get the sum of the integers in a binary tree.
 --
