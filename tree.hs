@@ -78,8 +78,12 @@ rightmost (Leaf i)     = i
 --   >>> maxInt t2
 --   9
 --
-maxInt = undefined
-
+maxInt :: Tree -> Int
+maxInt (Leaf i)     = i
+maxInt (Node i l r) = 
+                    | maxInt l > maxInt r = maxInt l
+                    | maxInt r > maxInt l = maxInt r
+                    | i > maxInt r && maxInt l = i
 
 -- | Get the minimum integer from a binary tree.
 --
@@ -98,8 +102,12 @@ maxInt = undefined
 --   >>> minInt t2
 --   1
 --
-minInt = undefined
-
+minInt :: Tree -> Int
+minInt (Leaf i)     = i
+minInt (Node i l r) = 
+                    | minInt l < minInt r = minInt l
+                    | minInt r < minInt l = minInt r
+                    | i < minInt r && minInt l = i
 
 -- | Get the sum of the integers in a binary tree.
 --
