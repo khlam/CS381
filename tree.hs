@@ -56,8 +56,10 @@ leftmost (Node _ l _) = leftmost l
 --   >>> rightmost t2
 --   9
 --
-rightmost = undefined
-
+rightmost :: Tree -> Int
+rightmost (Node _ _ r) = rightmost r
+rightmost (Node i l _) = i
+rightmost (Leaf i)     = i
 
 -- | Get the maximum integer from a binary tree.
 --
