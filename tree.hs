@@ -141,7 +141,9 @@ sumInts (Node i l r) = i + sumInts l + sumInts r
 --   >>> preorder t2
 --   [6,2,1,4,3,5,8,7,9]
 --   
-preorder = undefined
+preorder :: Tree -> [a]
+preorder (Leaf i) = [i]
+preorder (Node i l r) = [i] ++ preoder l ++ preorder r
 
 
 -- | The list of integers encountered by an in-order traversal of the tree.
