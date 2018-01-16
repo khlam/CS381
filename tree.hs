@@ -123,8 +123,9 @@ minInt (Node i l r)
 --   >>> sumInts (Node 10 t1 t2)
 --   100
 --
-sumInts = undefined
-
+sumInts :: Tree -> Int
+sumInts (Leaf i) = i
+sumInts (Node i l r) = i + sumInts l + sumInts r
 
 -- | The list of integers encountered by a pre-order traversal of the tree.
 --
