@@ -143,7 +143,7 @@ sumInts (Node i l r) = i + sumInts l + sumInts r
 --   
 preorder :: Tree -> [a]
 preorder (Leaf i) = [i]
-preorder (Node i l r) = [i] ++ preoder l ++ preorder r
+preorder (Node i l r) = [i] ++ preorder l ++ preorder r
 
 
 -- | The list of integers encountered by an in-order traversal of the tree.
