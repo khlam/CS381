@@ -58,7 +58,6 @@ leftmost (Node _ l _) = leftmost l
 --
 rightmost :: Tree -> Int
 rightmost (Node _ _ r) = rightmost r
-rightmost (Node i l _) = i
 rightmost (Leaf i)     = i
 
 -- | Get the maximum integer from a binary tree.
@@ -81,7 +80,7 @@ rightmost (Leaf i)     = i
 maxInt :: Tree -> Int
 maxInt (Leaf i)     = i
 maxInt (Node i l r)
-                    | i >= maxInt r && maxInt l = i
+                    | i >= maxInt r && i>= maxInt l = i
                     | maxInt l >= maxInt r = maxInt l
                     | maxInt r >= maxInt l = maxInt r
 
@@ -105,7 +104,7 @@ maxInt (Node i l r)
 minInt :: Tree -> Int
 minInt (Leaf i)     = i
 minInt (Node i l r)
-                    | i <= minInt r && minInt l = i
+                    | i <= minInt r && i<= minInt l = i
                     | minInt l <= minInt r = minInt l
                     | minInt r <= minInt l = minInt r
 
@@ -141,7 +140,7 @@ sumInts (Node i l r) = i + sumInts l + sumInts r
 --   >>> preorder t2
 --   [6,2,1,4,3,5,8,7,9]
 --   
-preorder :: Tree -> [a]
+preorder :: Tree -> [Int]
 preorder (Leaf i) = [i]
 preorder (Node i l r) = [i] ++ preorder l ++ preorder r
 
