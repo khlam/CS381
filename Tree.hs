@@ -181,7 +181,7 @@ inorder (Node i l r) = (inorder l) ++ [i] ++ (inorder r)
 
 isBST:: Tree -> Bool
 isBST (Leaf i) = True
-isBST (Node i l r) = maxInt l < i && minInt r > i
+isBST (Node i l r) = (maxInt l < i) && (minInt r > i)
 
 
 -- | Check whether a number is contained in a binary search tree.
@@ -199,4 +199,9 @@ isBST (Node i l r) = maxInt l < i && minInt r > i
 --   >>> inBST 10 t2
 --   False
 --   
-inBST = undefined
+inBST:: Int -> Tree -> Bool
+inBST x (Leaf i) = i == x
+inBST x (Node i l r)
+	| x == i = True
+	| x < i  = inBST x l
+	| x > i  = inBST x r
