@@ -159,7 +159,9 @@ preorder (Node i l r) = [i] ++ preorder l ++ preorder r
 --   >>> inorder t2
 --   [1,2,3,4,5,6,7,8,9]
 --   
-inorder = undefined
+inorder :: Tree -> [Int]
+inorder (Leaf i) = [i]
+inorder (Node i l r) = (inorder l) ++ [i] ++ (inorder r)
 
 
 -- | Check whether a binary tree is a binary search tree.
@@ -175,8 +177,11 @@ inorder = undefined
 --
 --   >>> isBST t2
 --   True
---   
-isBST = undefined
+-- 
+
+isBST:: Tree -> Bool
+isBST (Leaf i) = True
+isBST (Node i l r) = maxInt l < i && minInt r > i
 
 
 -- | Check whether a number is contained in a binary search tree.
