@@ -37,7 +37,8 @@ four = Succ three
 --   >>> pred three
 --   Succ (Succ Zero)
 --   
-pred = undefined
+pred :: Nat -> Nat
+pred (Succ a) = a
 
 
 -- | True if the given value is zero.
@@ -48,7 +49,9 @@ pred = undefined
 --   >>> isZero two
 --   False
 --
-isZero = undefined
+isZero :: Nat -> Bool
+isZero Zero = True
+isZero _    = False
 
 
 -- | Convert a natural number to an integer.
