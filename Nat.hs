@@ -38,6 +38,7 @@ four = Succ three
 --   Succ (Succ Zero)
 --   
 pred :: Nat -> Nat
+pred Zero = Zero
 pred (Succ a) = a
 
 
