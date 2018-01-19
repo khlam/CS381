@@ -38,8 +38,8 @@ four = Succ three
 --   Succ (Succ Zero)
 --   
 pred :: Nat -> Nat
-pred Zero = Zero
-pred (Succ a) = a
+pred Zero 		= Zero
+pred (Succ a)	= a
 
 
 -- | True if the given value is zero.
@@ -51,8 +51,8 @@ pred (Succ a) = a
 --   False
 --
 isZero :: Nat -> Bool
-isZero Zero = True
-isZero _    = False
+isZero Zero	= True
+isZero _	= False
 
 
 -- | Convert a natural number to an integer.
