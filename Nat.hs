@@ -63,7 +63,9 @@ isZero _	= False
 --   >>> toInt three
 --   3
 --
-toInt = undefined
+toInt:: Nat -> Int
+toInt (Zero)	= 0
+toInt a 		= (toInt (pred a)) + 1
 
 
 -- | Add two natural numbers.
@@ -80,7 +82,9 @@ toInt = undefined
 --   >>> add two three == add three two
 --   True
 --   
-add = undefined
+add:: Nat -> Nat -> Nat
+add (Zero) a 	= a
+add (Succ a) b 	= add a (Succ b)
 
 
 -- | Subtract the second natural number from the first. Return zero
