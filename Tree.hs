@@ -1,3 +1,6 @@
+-- Riley Rimer
+-- River Hendriksen
+-- Kin-Ho Lam 932-435-938
 module Tree where
 
 
