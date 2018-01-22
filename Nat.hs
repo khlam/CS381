@@ -1,6 +1,6 @@
--- Riley Rimer
--- River Hendriksen
--- Kin-Ho Lam 932-435-938
+-- Riley Rimer - rimerr - 932-439-548
+-- River Hendriksen - hendriri - 932239742
+-- Kin-Ho Lam - lamki - 932-435-938
 module Nat where
 
 import Prelude hiding (Enum(..), sum)

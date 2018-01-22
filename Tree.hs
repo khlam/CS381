@@ -1,5 +1,5 @@
--- Riley Rimer
--- River Hendriksen
+-- Riley Rimer - rimerr - 932-439-548
+-- River Hendriksen - hendriri - 932239742
 -- Kin-Ho Lam 932-435-938
 module Tree where
 
