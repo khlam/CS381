@@ -24,8 +24,6 @@ data Cmd	=	Pen Mode ---change pen mode
             |	Call Macro [Expr]	---invoke a macro
     deriving(Eq,Show)
 
-
---	line(x1, y1, x2, y2)
 --	define line (x1, y1, x2, y2) {
 --		pen up;
 --		move (x1, y1);
@@ -52,6 +50,14 @@ nix::Cmd
 nix = Define "nix"
         ["x", "y", "w", "h"]
         [
-            Call "line" [Vari "x", Vari "y"]
+            Call "line" [Vari "x", Vari "y", Add (Vari "x")(Vari "w"), Add (Vari "y")(Vari "h")],
+            Call "line" [Add (Vari "x")(Vari "w"), Vari "y", Vari "x", Add (Vari "y")(Vari "h")]
         ]
+
+steps:: Int -> Prog
+steps 0 =	[Pen up]
+steps n =	[
+				Call "line" [Vari (show x), Vari (show y), Vari (show (x-1)), Vari (show y)],
+				Call "line" [Vari (show (x-1)), Vari (show y), Vari (show (x-1)), Vari (show (y-1))]
+			] + 
                
