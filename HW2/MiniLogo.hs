@@ -70,17 +70,17 @@ macros (x: xs) = case x of
         otherwise  -> macros xs
 
 prettyHelp :: Expr -> String
+prettyHelp (Add l r) = prettyHelp l ++ " + " ++ prettyHelp r
 prettyHelp (Number n) = show n
 prettyHelp (Vari v) = v
-prettyHelp (Add l r) = prettyHelp l ++ " + " ++ prettyHelp r
 
 pretty :: Prog -> String
 pretty [] = ""
-pretty ((Move l r):xs) = "Move (" ++ prettyHelp l ++ ", " ++ prettyHelp r ++ ");" ++ pretty xs
-pretty (Call n x:xs) = n ++ "Call (" ++ intercalate ", " (map prettyHelp x) ++ ");" ++ pretty xs
-pretty (Define a x p:ps) = "Define " ++ a ++ " (" ++ intercalate ", " x ++ ") {" ++ pretty p ++ "};" ++ pretty ps
-pretty (Pen Up:xs) = "Pen Up;" ++ pretty xs
-pretty (Pen Down:xs) = "Pen Down;" ++ pretty xs
+pretty (Call n x:xs) = n ++ "call (" ++ intercalate ", " (map prettyHelp x) ++ ");" ++ pretty xs
+pretty ((Move l r):xs) = "move (" ++ prettyHelp l ++ ", " ++ prettyHelp r ++ ");" ++ pretty xs
+pretty (Define a x p:ps) = "define " ++ a ++ " (" ++ intercalate ", " x ++ ") {" ++ pretty p ++ "};" ++ pretty ps
+pretty (Pen Up:xs) = "pen up;" ++ pretty xs
+pretty (Pen Down:xs) = "pen down;" ++ pretty xs
 
 --Define a Haskell function optE :: Expr -> Expr that partially evaluates expressions by replacing any additions of literals with the result. 
 --For example, given the expression (2+3)+x, optE should return the expression 5+x.
