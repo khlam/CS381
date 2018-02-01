@@ -31,7 +31,7 @@ data Cmd	=	Pen Mode ---change pen mode
 --		move (x2, y2); 	
 --	}
 
-line::Cmd
+line :: Cmd
 line = Define "line"
         ["x1", "y1", "x1", "x2"]
         [
@@ -46,7 +46,7 @@ line = Define "line"
 --		call line(x+w, y, x, y+h);
 --	}
 
-nix::Cmd
+nix :: Cmd
 nix = Define "nix"
         ["x", "y", "w", "h"]
         [
@@ -54,10 +54,15 @@ nix = Define "nix"
             Call "line" [Add (Vari "x")(Vari "w"), Vari "y", Vari "x", Add (Vari "y")(Vari "h")]
         ]
 
-steps:: Int -> Prog
+steps :: Int -> Prog
 steps 0 =	[Pen up]
 steps n =	[
 				Call "line" [Vari (show x), Vari (show y), Vari (show (x-1)), Vari (show y)],
 				Call "line" [Vari (show (x-1)), Vari (show y), Vari (show (x-1)), Vari (show (y-1))]
-			] + 
-               
+			] ++ steps (n-1)
+
+macros :: Prog -> [Macro] -- not sure about this function
+macro [] = []
+macros (x: xs) = case x of
+		Define m _ _ -> m:macros xs
+		otherwise -> macros xs
