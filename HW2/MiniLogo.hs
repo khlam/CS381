@@ -38,7 +38,7 @@ line = Define "line"
             Pen Up, 
             Move (Vari "x1") (Vari "y1"),
             Pen Down,
-            Move (Vari "x2") (Vari "y2"),
+            Move (Vari "x2") (Vari "y2")
         ]
 
 --	define nix (x, y, w, h){
@@ -55,10 +55,10 @@ nix = Define "nix"
         ]
 
 steps :: Int -> Prog
-steps 0 =	[Pen up]
+steps 0 =	[]
 steps n =	[
-				Call "line" [Vari (show x), Vari (show y), Vari (show (x-1)), Vari (show y)],
-				Call "line" [Vari (show (x-1)), Vari (show y), Vari (show (x-1)), Vari (show (y-1))]
+				Call "line" [Vari x, Vari x, Vari (x-1), Vari y],
+				Call "line" [Vari (x-1), Vari y, Vari (x-1), Vari (y-1)]
 			] ++ steps (n-1)
 
 macros :: Prog -> [Macro] -- not sure about this function
