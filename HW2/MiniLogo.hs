@@ -3,28 +3,28 @@
 -- Kin-Ho Lam - lamki - 932-435-938
 module Minilogo where
 import Data.List
-import Prelude
+import Prelude hiding (Num)
 
--- type Num =   Int
+type Num = Int
 type Var = String
 type Macro = String
     
 type Prog = [Cmd]   ---sequence of commands
 
-data Mode = Down   --- pen status
-            | Up    
-    deriving(Eq,Show)
+data Mode = Up   --- pen status
+            | Down    
+            deriving(Eq,Show)
 
 data Expr   = Vari Var  --- Variable reference
             | Number Int    --- literal number
             | Add Expr Expr --- addition expression
-    deriving(Eq, Show)
+            deriving(Eq, Show)
     
 data Cmd    = Pen Mode ---change pen mode
             | Move Expr Expr ---move pen to a new position
             | Define Macro [Var] Prog ---define a macro
             | Call Macro [Expr] ---invoke a macro
-    deriving(Eq,Show)
+            deriving(Eq,Show)
 
 --  define line (x1, y1, x2, y2) {
 --      pen up;
@@ -49,12 +49,9 @@ line = Define "line"
 --  }
 
 nix :: Cmd
-nix = Define "nix"
-        ["x", "y", "w", "h"]
-        [
-            Call "line" [Vari "x", Vari "y", Add (Vari "x")(Vari "w"), Add (Vari "y")(Vari "h")],
-            Call "line" [Add (Vari "x")(Vari "w"), Vari "y", Vari "x", Add (Vari "y")(Vari "h")]
-        ]
+nix = Define "nix" ["x", "y", "w", "h"]
+        [Call "line" [Vari "x", Vari "y", Add (Vari "x") (Vari "w"), Add (Vari "y") (Vari "h")],
+         Call "line" [Add (Vari "x") (Vari "w"), Vari "y", Vari "x", Add (Vari "y") (Vari "h")]]
 
 steps :: Int -> Prog
 steps 0 =   []
