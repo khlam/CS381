@@ -1,3 +1,6 @@
+-- Riley Rimer - rimerr - 932-439-548
+-- River Hendriksen - hendriri - 932239742
+-- Kin-Ho Lam - lamki - 932-435-938
 -- | This module defines the syntax of MiniMiniLogo. It also provides
 --   functions to generate programs that draw some basic shapes.
 --
