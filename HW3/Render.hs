@@ -1,3 +1,6 @@
+-- Riley Rimer - rimerr - 932-439-548
+-- River Hendriksen - hendriri - 932239742
+-- Kin-Ho Lam - lamki - 932-435-938
 -- | A module for rendering lines as an HTML5 file containing an SVG image.
 --   This can be used to visualize the denotational semantics of a MiniLogo
 --   program.
