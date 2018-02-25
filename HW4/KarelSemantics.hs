@@ -17,7 +17,7 @@ import KarelState
 test :: Test -> World -> Robot -> Bool
 test (Not t) w r = not (test t w r) -- boolean negation
 test (Facing c') w (p, c, i) = c == c' -- true if c'direction == c direction
-test (Clear c')	w (p, c, i)  = isClear (neighbor (cardTurn c' c) p) w -- true if next pos in dir c is clear
+test (Clear c') w (p, c, i)  = isClear (neighbor (cardTurn c' c) p) w
 test Beeper w (p, c, i) = hasBeeper p w -- checks if beeper at position p
 test Empty w r = isEmpty r -- checks if beeper in robot is empty
 
@@ -44,17 +44,17 @@ stmt PickBeeper _ w r = let p = getPos r
 stmt Move d w (p, c, i) = let np = neighbor c p -- set next position
                         in if isClear np w -- check if next position is clear
                               then OK w (setPos np (p, c, i)) --if clear move
-                              else Error ("Robot was blocked at: " ++ show np) -- else err
+                              else Error ("Blocked at: " ++ show np) -- else err
 
 stmt PutBeeper _ w r = let p = getPos r -- get current position
                         in if not (isEmpty r) -- check if we have peepers
                               then OK (incBeeper p w) (decBag r) -- if yes place
-                              else Error "No beepers to left to put down" -- if no err
+                              else Error "No beeper to put." -- if no err
 
 stmt (Turn d) _ w (p, c, i) = OK w (setFacing (cardTurn d c) (p, c, i)) -- turn
 
 stmt (Call m) d w r = case lookup m d of -- calls macro m on  
-                        Nothing -> Error ("Unknown macro: " ++ m)
+                        Nothing -> Error ("Undefined macro: " ++ m)
                         Just s  -> stmt s d w r
 
 stmt (Iterate 0 _) _ w r = OK w r -- if iterate 0
