@@ -44,17 +44,17 @@ stmt PickBeeper _ w r = let p = getPos r
 stmt Move d w (p, c, i) = let np = neighbor c p -- set next position
                         in if isClear np w -- check if next position is clear
                               then OK w (setPos np (p, c, i)) --if clear move
-                              else Error ("Blocked at: " ++ show np) -- else err
+                              else Error ("Robot was blocked at: " ++ show np) -- else err
 
 stmt PutBeeper _ w r = let p = getPos r -- get current position
                         in if not (isEmpty r) -- check if we have peepers
                               then OK (incBeeper p w) (decBag r) -- if yes place
-                              else Error "No beeper to put." -- if no err
+                              else Error "No beepers to left to put down" -- if no err
 
 stmt (Turn d) _ w (p, c, i) = OK w (setFacing (cardTurn d c) (p, c, i)) -- turn
 
-stmt (Call m) d w r = case lookup m d of
-                        Nothing -> Error ("Undefined macro: " ++ m)
+stmt (Call m) d w r = case lookup m d of -- calls macro m on  
+                        Nothing -> Error ("Unknown macro: " ++ m)
                         Just s  -> stmt s d w r
 
 stmt (Iterate 0 _) _ w r = OK w r -- if iterate 0
