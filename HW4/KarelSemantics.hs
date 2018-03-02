@@ -60,22 +60,25 @@ stmt (Call m) d w r = case lookup m d of -- calls macro m on
                         Nothing -> Error ("Undefined macro: " ++ m)
                         Just s  -> stmt s d w r
 
-stmt (Iterate 0 _) _ w r = OK w r -- if iterate 0
-stmt (Iterate n s) d w r = case stmt s d w r of 
+stmt (Iterate n s) d w r = if n > 0 then case stmt s d w r of 
                             OK w' r'  -> stmt (Iterate (n-1) s) d w' r' -- iterate
-                            otherwise -> otherwise
+                            Error e -> Error e
+                            Done r -> Done r
+                            else OK w r
 
 stmt (If t s s') d w r = if test t w r then stmt s d w r else stmt s' d w r
 
 stmt (Block []) d w r = OK w r -- empty list
 stmt (Block (s:ss)) d w r = case stmt s d w r of
                               OK w' r' -> stmt (Block ss) d w' r' -- go down the list
-                              otherwise -> otherwise
+                              Error e -> Error e
+                              Done r -> Done r
 
 stmt (While t s) d w r = if test t w r then case stmt s d w r of
                               OK w' r' -> stmt (While t s) d w' r'
-                              otherwise -> otherwise
-                            else OK w r    
+                              Error e -> Error e
+                              Done r -> Done r
+                              else OK w r  
 -- | Run a Karel program.
 prog :: Prog -> World -> Robot -> Result
 prog (m,s) w r = stmt s m w r
