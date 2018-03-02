@@ -18,11 +18,11 @@ import KarelState
 
 -- | Valuation function for Test.
 test :: Test -> World -> Robot -> Bool
-test (Not t) w r = not (test t w r) -- boolean negation
-test (Facing c') w (p, c, i) = c == c' -- true if c'direction == c direction
-test (Clear c') w (p, c, i)  = isClear (neighbor (cardTurn c' c) p) w
-test Beeper w (p, c, i) = hasBeeper p w -- checks if beeper at position p
-test Empty w r = isEmpty r -- checks if beeper in robot is empty
+test (Not tes) worl robo = not (test tes worl robo) -- test for boolean negation
+test (Facing cardin) _ robo = cardin == getFacing robo 
+test (Clear deff) wurled (pos, cardin, integer)  = isClear (neighbor (cardTurn deff cardin) pos) wurled
+test Beeper wurled (pos, cardin, integer) = hasBeeper pos wurled -- checks if beeper at position p
+test Empty wurled robo = isEmpty robo -- checks if beeper in robot is empty
 
 
 --data Stmt = Shutdown                 -- end the program
@@ -38,47 +38,47 @@ test Empty w r = isEmpty r -- checks if beeper in robot is empty
 
 -- | Valuation function for Stmt.
 stmt :: Stmt -> Defs -> World -> Robot -> Result
-stmt Shutdown   _ _ r = Done r
-stmt PickBeeper _ w r = let p = getPos r
-                        in if hasBeeper p w
-                              then OK (decBeeper p w) (incBag r)
-                              else Error ("No beeper to pick at: " ++ show p)
+stmt Shutdown   _ _ robo = Done robo
+stmt PickBeeper _ wurled robo = let pos = getPos robo
+                        in if hasBeeper pos wurled
+                              then OK (decBeeper pos wurled) (incBag robo)
+                              else Error ("There was no beeper to pick at this position: " ++ show pos)
 
-stmt Move d w (p, c, i) = let np = neighbor c p -- set next position
-                        in if isClear np w -- check if next position is clear
-                              then OK w (setPos np (p, c, i)) --if clear move
-                              else Error ("Blocked at: " ++ show np) -- else err
+stmt Move deff wurled (pos, cardin, integer) = let nextpos = neighbor cardin pos -- set next position
+                        in if isClear nextpos wurled -- check if next position is clear
+                              then OK wurled (setPos nextpos (pos, cardin, integer)) --if clear move
+                              else Error ("Movement was blocked at: " ++ show nextpos) -- else err
 
-stmt PutBeeper _ w r = let p = getPos r -- get current position
-                        in if not (isEmpty r) -- check if we have peepers
-                              then OK (incBeeper p w) (decBag r) -- if yes place
-                              else Error "No beeper to put." -- if no err
+stmt PutBeeper _ wurled robo = let pos = getPos robo -- get current position
+                        in if not (isEmpty robo) -- check if we have peepers
+                              then OK (incBeeper pos wurled) (decBag robo) -- if yes place
+                              else Error "There is no beeper to be entered." -- if no err
 
-stmt (Turn d) _ w (p, c, i) = OK w (setFacing (cardTurn d c) (p, c, i)) -- turn
+stmt (Turn deff) _ wurled (pos, cardin, integer) = OK wurled (setFacing (cardTurn deff cardin) (pos, cardin, integer)) -- turn
 
-stmt (Call m) d w r = case lookup m d of -- calls macro m on  
-                        Nothing -> Error ("Undefined macro: " ++ m)
-                        Just s  -> stmt s d w r
+stmt (Call macros) deff wurled robo = case lookup macros deff of -- calls macro m on  
+                        Nothing -> Error ("Undefined macro: " ++ macros)
+                        Just s  -> stmt s deff wurled robo
 
-stmt (Iterate n s) d w r = if n > 0 then case stmt s d w r of 
-                            OK w' r'  -> stmt (Iterate (n-1) s) d w' r' -- iterate
+stmt (Iterate n s) deff wurled robo = if n > 0 then case stmt s deff wurled robo of 
+                            OK wurled' robo'  -> stmt (Iterate (n-1) s) deff wurled' robo' -- iterate
                             Error e -> Error e
-                            Done r -> Done r
-                            else OK w r
+                            Done robo -> Done robo
+                            else OK wurled robo
 
-stmt (If t s s') d w r = if test t w r then stmt s d w r else stmt s' d w r
+stmt (If t s s') deff wurled robo = if test t wurled robo then stmt s deff wurled robo else stmt s' deff wurled robo
 
-stmt (Block []) d w r = OK w r -- empty list
-stmt (Block (s:ss)) d w r = case stmt s d w r of
-                              OK w' r' -> stmt (Block ss) d w' r' -- go down the list
+stmt (Block []) deff wurled robo = OK wurled robo -- empty list
+stmt (Block (s:ss)) deff wurled robo = case stmt s deff wurled robo of
+                              OK wurled' robo' -> stmt (Block ss) deff wurled' robo' -- go down the list
                               Error e -> Error e
-                              Done r -> Done r
+                              Done robo -> Done robo
 
-stmt (While t s) d w r = if test t w r then case stmt s d w r of
-                              OK w' r' -> stmt (While t s) d w' r'
+stmt (While t s) deff wurled robo = if test t wurled robo then case stmt s deff wurled robo of
+                              OK wurled' robo' -> stmt (While t s) deff wurled' robo'
                               Error e -> Error e
-                              Done r -> Done r
-                              else OK w r  
+                              Done robo -> Done robo
+                              else OK wurled robo  
 -- | Run a Karel program.
 prog :: Prog -> World -> Robot -> Result
-prog (m,s) w r = stmt s m w r
+prog (macros,s) wurled robo = stmt s macros wurled robo
