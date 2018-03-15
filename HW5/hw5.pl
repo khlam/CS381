@@ -1,3 +1,6 @@
+% Riley Rimer - rimerr - 932-439-548
+% River Hendriksen - hendriri - 932239742
+% Kin-Ho Lam - lamki - 932-435-938
 % Here are a bunch of facts describing the Simpson's family tree.
 % Don't change them!
 
@@ -59,10 +62,10 @@ isFather(X) :- male(X),parent(X,_).
 % 3. Define a predicate `grandparent/2`.
 grandparent(X,Z) :- parent(X,Y), parent(Y,Z).
 
-%our solution created duplicates so we used the setof/3 predicate to get a solution
-%setof/3 asks for the input variables, the paramters of the function and the output
-%the second argument is member defines arguments in a list
-%See: http://www.learnprolognow.org/lpnpage.php?pagetype=html&pageid=lpn-htmlse49 for info
+% our solution created duplicates so we used the setof/3 predicate to get a solution
+% setof/3 asks for the input variables, the paramters of the function and the output
+% the second argument is member defines arguments in a list
+% See: http://www.learnprolognow.org/lpnpage.php?pagetype=html&pageid=lpn-htmlse49 for info
 % 4. Define a predicate `sibling/2`. Siblings share at least one parent.
 sibling(X,Y) :- setof((X,Y), Z^(parent(Z,X) ,parent(Z,Y), \+X=Y), Sibs),
                member((X,Y), Sibs).
@@ -71,10 +74,10 @@ sibling(X,Y) :- setof((X,Y), Z^(parent(Z,X) ,parent(Z,Y), \+X=Y), Sibs),
 brother(X,Y) :- male(X), sibling(X,Y).
 sister(X,Y) :- female(X), sibling(X,Y).
 
-%not working
 % 6. Define a predicate `siblingInLaw/2`. A sibling-in-law is either married to
 %    a sibling or the sibling of a spouse.
-siblingInLaw(X,Y) :- sibling(Y,Z), married(X,Z).
+siblingInLaw(X,Y) :- sibling(X,Z), married(Z,Y).
+siblingInLaw(X,Y) :- married(Z,X), sibling(Y,Z).
 
 % 7. Define two predicates `aunt/2` and `uncle/2`. Your definitions of these
 %    predicates should include aunts and uncles by marriage.
